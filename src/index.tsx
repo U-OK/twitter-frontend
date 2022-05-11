@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {ThemeProvider} from '@material-ui/core'
+import {BrowserRouter as Router} from 'react-router-dom';
+import {ThemeProvider, CssBaseline} from '@material-ui/core';
 import theme from "theme";
 
 const root = ReactDOM.createRoot(
@@ -11,8 +12,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <CssBaseline/>
     <ThemeProvider theme={theme}>
-      <App />
+      <Router>
+        <App/>
+      </Router>
     </ThemeProvider>
   </React.StrictMode>
 );
