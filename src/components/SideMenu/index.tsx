@@ -7,14 +7,13 @@ import BookmarkIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import ListIcon from '@material-ui/icons/ListAltOutlined';
 import UserIcon from '@material-ui/icons/PermIdentityOutlined';
 import CreateIcon from '@material-ui/icons/Create';
-import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import {useHomeStyles} from "pages/Home";
-import {Box, Theme, useMediaQuery} from "@material-ui/core";
+import {Theme, useMediaQuery} from "@material-ui/core";
 import {ModalBlock} from "components/ModalBlock";
 import {AddTweetForm} from "components/AddTweetForm";
+import {useHomeStyles} from "pages/Home/theme";
 
 
 interface SideMenuProps {

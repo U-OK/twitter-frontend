@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {ThemeProvider, CssBaseline} from '@material-ui/core';
+import {Provider} from 'react-redux';
+import {store} from 'store/store';
 import theme from "theme";
 
 const root = ReactDOM.createRoot(
@@ -15,7 +17,9 @@ root.render(
     <CssBaseline/>
     <ThemeProvider theme={theme}>
       <Router>
-        <App/>
+        <Provider store={store}>
+          <App/>
+        </Provider>
       </Router>
     </ThemeProvider>
   </React.StrictMode>

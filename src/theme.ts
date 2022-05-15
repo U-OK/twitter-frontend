@@ -20,6 +20,9 @@ export const theme = createTheme({
     background: {
       default: '#fff',
     },
+    text: {
+      primary: '#14171a',
+    },
   },
   overrides: {
     MuiButton: {

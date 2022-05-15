@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import EmojiIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
-import {useHomeStyles} from "pages/Home";
+import {useHomeStyles} from "pages/Home/theme";
 
 interface AddTweetFormProps {
   classes: ReturnType<typeof useHomeStyles>;
@@ -47,7 +47,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({
           className={classes.addFormTextarea}
           placeholder="Что происходит?"
           value={text}
-          rowsMax={maxRows}
+          maxRows={maxRows}
         />
       </div>
       <div className={classes.addFormBottom}>
@@ -65,7 +65,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({
               <span>{textCount}</span>
               <div className={classes.addFormCircleProgress}>
                 <CircularProgress
-                  variant="static"
+                  variant="determinate"
                   size={20}
                   thickness={5}
                   value={text.length >= MAX_LENGTH ? 100 : textLimitPercent}
@@ -73,7 +73,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({
                 />
                 <CircularProgress
                   style={{color: 'rgba(0, 0, 0, 0.1)'}}
-                  variant="static"
+                  variant="determinate"
                   size={20}
                   thickness={5}
                   value={100}
