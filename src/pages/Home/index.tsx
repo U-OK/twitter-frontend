@@ -1,8 +1,7 @@
 import React from 'react';
-import { Container, Grid, InputAdornment, Paper, Typography } from '@material-ui/core';
+import {Container, Grid, InputAdornment, Paper, Typography} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
 import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import Divider from '@material-ui/core/Divider/Divider';
@@ -12,14 +11,16 @@ import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import List from '@material-ui/core/List/List';
 import Button from '@material-ui/core/Button/Button';
 
-import { AddTweetForm } from 'components/AddTweetForm';
-import { Tweet } from 'components/Tweet';
-import { SideMenu } from 'components/SideMenu';
-import { useHomeStyles } from './theme';
-import { SearchTextField } from 'components/SearchTextField';
-import { useDispatch, useSelector } from 'react-redux';
+import {SideMenu} from 'components/SideMenu';
+import {useHomeStyles} from './theme';
+import {SearchTextField} from 'components/SearchTextField';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectIsTweetsLoading, selectTweetsItems} from "store/ducks/tweets/selectors";
 import {fetchTweets} from "store/ducks/tweets/actionCreators";
+import {Outlet, useMatch} from 'react-router-dom';
+import {Tags} from "components/Tags";
+import {fetchTags} from 'store/ducks/tags/actionCreators';
+import {BackButton} from "components/BackButton";
 
 export const Home = (): React.ReactElement => {
   const classes = useHomeStyles();
@@ -27,36 +28,30 @@ export const Home = (): React.ReactElement => {
   const tweets = useSelector(selectTweetsItems);
   const isLoading = useSelector(selectIsTweetsLoading);
 
+  const isTweetOpened = Boolean(useMatch('/tweet/*'));
+
   React.useEffect(() => {
     dispatch(fetchTweets());
+    dispatch(fetchTags());
   }, [dispatch]);
 
   return (
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>
         <Grid sm={1} md={3} item>
-          <SideMenu classes={classes} />
+          <SideMenu classes={classes}/>
         </Grid>
         <Grid sm={8} md={6} item>
           <Paper className={classes.tweetsWrapper} variant="outlined">
             <Paper className={classes.tweetsHeader} variant="outlined">
-              <Typography variant="h6">Главная</Typography>
+              {isTweetOpened && (
+                <BackButton/>
+              )}
+
+              <Typography variant="h6">Твиты</Typography>
             </Paper>
-            <Paper>
-              <div className={classes.addForm}>
-                <AddTweetForm classes={classes} />
-              </div>
-              <div className={classes.addFormBottomLine} />
-            </Paper>
-            {isLoading ? (
-              <div className={classes.tweetsCentred}>
-                <CircularProgress />
-              </div>
-            ) : (
-              tweets.map((tweet) => (
-                <Tweet key={tweet._id} text={tweet.text} user={tweet.user} classes={classes} />
-              ))
-            )}
+
+            <Outlet context={{classes, isLoading, tweets}}/>
           </Paper>
         </Grid>
         <Grid sm={3} md={3} item>
@@ -67,52 +62,13 @@ export const Home = (): React.ReactElement => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <SearchIcon/>
                   </InputAdornment>
                 ),
               }}
               fullWidth
             />
-            <Paper className={classes.rightSideBlock}>
-              <Paper className={classes.rightSideBlockHeader} variant="outlined">
-                <b>Актуальные темы</b>
-              </Paper>
-              <List>
-                <ListItem className={classes.rightSideBlockItem}>
-                  <ListItemText
-                    primary="Санкт-Петербург"
-                    secondary={
-                      <Typography component="span" variant="body2" color="textSecondary">
-                        Твитов: 3 331
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <Divider component="li" />
-                <ListItem className={classes.rightSideBlockItem}>
-                  <ListItemText
-                    primary="#коронавирус"
-                    secondary={
-                      <Typography component="span" variant="body2" color="textSecondary">
-                        Твитов: 163 122
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <Divider component="li" />
-                <ListItem className={classes.rightSideBlockItem}>
-                  <ListItemText
-                    primary="Беларусь"
-                    secondary={
-                      <Typography component="span" variant="body2" color="textSecondary">
-                        Твитов: 13 554
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <Divider component="li" />
-              </List>
-            </Paper>
+            <Tags classes={classes}/>
             <Paper className={classes.rightSideBlock}>
               <Paper className={classes.rightSideBlockHeader} variant="outlined">
                 <b>Кого читать</b>
@@ -134,10 +90,10 @@ export const Home = (): React.ReactElement => {
                     }
                   />
                   <Button color="primary">
-                    <PersonAddIcon />
+                    <PersonAddIcon/>
                   </Button>
                 </ListItem>
-                <Divider component="li" />
+                <Divider component="li"/>
               </List>
             </Paper>
           </div>

@@ -13,14 +13,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <CssBaseline/>
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Provider store={store}>
-          <App/>
-        </Provider>
-      </Router>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
+  </ThemeProvider>,
 );

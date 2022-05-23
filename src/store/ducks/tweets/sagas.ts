@@ -1,9 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { TweetsApi } from 'services/api/tweetsApi';
 import { setTweets, setTweetsLoadingState, TweetsActionsType } from './actionCreators';
-import {LoadingState, Tweet} from './contracts/state';
+import {LoadingState, ITweet} from './contracts/state';
 
-export function* fetchTweetsRequest(): Generator<ReturnType<any>, any, Tweet[]> {
+export function* fetchTweetsRequest(): Generator<ReturnType<any>, any, ITweet[]> {
   try {
     const items = yield call(TweetsApi.fetchTweets);
     yield put(setTweets(items));
